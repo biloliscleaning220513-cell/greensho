@@ -177,3 +177,8 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://e-commerce-67ie.onrender.com"
+]
