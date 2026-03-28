@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+.detail-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.product-detail-card {
+    display: flex;
+    gap: 30px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    flex-wrap: wrap;
+}
+
+/* IMAGE */
+.product-image {
+    flex: 1;
+    min-width: 300px;
+}
+
+.product-image img {
+    width: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+}
+
+/* INFO */
+.product-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.category-badge {
+    display: inline-block;
+    background: #f0fdf4;
+    color: #16a34a;
+    padding: 5px 12px;
+    font-size: 12px;
+    border-radius: 50px;
+    margin-bottom: 10px;
+}
+
+.product-info h1 {
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.price {
+    font-size: 28px;
+    font-weight: bold;
+    color: #16a34a;
+    margin-bottom: 15px;
+}
+
+.description {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.seller {
+    margin-top: 10px;
+    color: #333;
+}
+
+/* BUTTONS */
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-buy {
+    background: #2ecc71;
+    color: white !important;
+}
+
+.btn-buy:hover {
+    background: #27ae60;
+}
+
+.btn-edit {
+    background: #3498db;
+    color: white !important;
+}
+
+.btn-edit:hover {
+    background: #2980b9;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .product-detail-card {
+        flex-direction: column;
+    }
+}
+</style>
+
+<div class="detail-container">
+
+    <div class="product-detail-card">
+
+        <!-- IMAGE -->
+        <div class="product-image">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        </div>
+
+        <!-- INFO -->
+        <div class="product-info">
+            <span class="category-badge">{{ product.category.name }}</span>
+
+            <h1>{{ product.name }}</h1>
+
+            <p class="price">{{ product.price }} so'm</p>
+
+            <p class="description">{{ product.description }}</p>
+
+            <p class="seller">
+                Sotuvchi: <b>{{ product.seller.username }}</b>
+            </p>
+
+            <div class="actions">
+                <a href="{% url 'place_order' product.pk %}" class="btn btn-buy">
+                    <i class="fas fa-shopping-cart"></i> Sotib olish
+                </a>
+
+                {% if user == product.seller %}
+                <a href="{% url 'product_update' product.pk %}" class="btn btn-edit">
+                    <i class="fas fa-edit"></i> Tahrirlash
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

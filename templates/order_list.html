@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+.orders-wrapper {
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* GRID */
+.orders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* CARD */
+.order-card {
+    background: #00c8ff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.order-card:hover {
+    transform: translateY(-5px);
+}
+
+/* IMAGE */
+.order-image {
+    width: 100%;
+    overflow: hidden;
+}
+
+.order-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* BODY */
+.order-body {
+    padding: 15px;
+}
+
+/* HEADER */
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.order-header h3 {
+    font-size: 16px;
+}
+
+/* STATUS */
+.status {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+.status.kutilmoqda {
+    background: #fef9c3;
+    color: #b45309;
+}
+
+.status.yetkazildi {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.status.bekor-qilindi {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* TEXT */
+.order-body p {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* BUTTON */
+.btn-confirm {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #2ecc71;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-confirm:hover {
+    background: #27ae60;
+}
+
+/* DONE */
+.done {
+    margin-top: 10px;
+    padding: 8px;
+    text-align: center;
+    border-radius: 10px;
+    background: #f0fdf4;
+    color: #16a34a;
+    font-weight: 600;
+}
+
+/* EMPTY */
+.empty-box {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 50px;
+    color: #777;
+}
+</style>
+
+<div class="orders-wrapper fade-in">
+
+    <h2 style="margin-bottom:25px;">🛒 Mening buyurtmalarim</h2>
+
+    <div class="orders-grid">
+        {% for order in orders %}
+        <div class="order-card">
+
+            <!-- IMAGE -->
+            <div class="order-image">
+                <img src="{{ order.product.image.url }}" alt="{{ order.product.name }}">
+            </div>
+
+            <!-- BODY -->
+            <div class="order-body">
+
+                <div class="order-header">
+                    <h3>{{ order.product.name }}</h3>
+
+                    <span class="status {{ order.status|slugify }}">
+                        {{ order.status }}
+                    </span>
+                </div>
+
+                <p><b>Narxi:</b> {{ order.product.price }} so'm</p>
+                <p><b>Sana:</b> {{ order.created_at|date:"d.m.Y" }}</p>
+
+                {% if order.status == 'Kutilmoqda' %}
+                <form action="{% url 'confirm_delivery' order.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn-confirm">
+                        Qabul qildim
+                    </button>
+                </form>
+                {% else %}
+                <div class="done">
+                    ✔ Yopilgan
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+        {% empty %}
+        <div class="empty-box">
+            <p>Hali buyurtmalar yo‘q 😔</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

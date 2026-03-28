@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.form-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(58, 219, 255, 0.7);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* TITLE */
+.form-card h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* INPUT */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form-control:focus {
+    border-color: #2ecc71;
+    box-shadow: 0 0 0 2px #dcfce7;
+}
+
+/* BUTTON */
+.btn-buy {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #2ecc71;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn-buy:hover {
+    background: #27ae60;
+}
+</style>
+
+<div class="form-wrapper">
+    <div class="form-card">
+
+        <h2>🛒 Buyurtma: {{ product.name }}</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Miqdor</label>
+                {{ form.quantity }}
+            </div>
+
+            <div class="form-group">
+                <label>Manzil</label>
+                {{ form.address }}
+            </div>
+
+            <div class="form-group">
+                <label>Telefon</label>
+                {{ form.phone }}
+            </div>
+
+            <button class="btn-buy">Tasdiqlash</button>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

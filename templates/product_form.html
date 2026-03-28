@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 15px;
+}
+
+/* CARD */
+.glass-card {
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(0, 128, 255, 0.7);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* HEADER */
+.form-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.form-header h2 {
+    margin-top: 10px;
+}
+
+/* GROUP */
+.form-group {
+    margin-bottom: 18px;
+}
+
+/* LABEL */
+.form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+/* INPUT */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    outline: none;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #2ecc71;
+    box-shadow: 0 0 0 2px #dcfce7;
+}
+
+/* CATEGORY LINK */
+.add-category {
+    margin-top: 6px;
+    display: inline-block;
+    font-size: 13px;
+    color: #2ecc71;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.add-category:hover {
+    text-decoration: underline;
+}
+
+/* ERROR */
+.error-text {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #e74c3c;
+}
+
+/* ACTIONS */
+.form-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+/* BUTTON */
+.btn-main-large {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    background: #2ecc71;
+    color: white;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-main-large:hover {
+    background: #27ae60;
+}
+
+/* CANCEL */
+.btn-cancel {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-cancel:hover {
+    background: #e2e8f0;
+}
+</style>
+
+<div class="form-wrapper">
+    <div class="glass-card">
+
+        <div class="form-header">
+            <i class="fas fa-plus-circle fa-2x" style="color:#2ecc71;"></i>
+            <h2>{{ title|default:"Mahsulot ma'lumotlari" }}</h2>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    
+                    {{ field }}
+
+                    {% if field.name == 'category' %}
+                        <a href="{% url 'category_create' %}" class="add-category">
+                            <i class="fas fa-plus-circle"></i> Yangi kategoriya qo'shish
+                        </a>
+                    {% endif %}
+
+                    {% if field.errors %}
+                        <div class="error-text">
+                            {{ field.errors|striptags }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="form-actions">
+                <button type="submit" class="btn-main-large">
+                    <i class="fas fa-save"></i> Saqlash
+                </button>
+
+                <a href="javascript:history.back()" class="btn-cancel">
+                    <i class="fas fa-arrow-left"></i> Orqaga
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

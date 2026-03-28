@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% block content %}
+
+
+<div class="form-wrapper">
+    <div class="auth-card">
+
+        <h2>🔐 Tizimga kirish</h2>
+
+        <a href="{% provider_login_url 'google' process='login' %}" class="google-btn">
+            <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" width="20">
+            Google orqali kirish
+        </a>
+
+        <div class="divider"><span>yoki</span></div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Login yoki Email">
+            <input type="password" name="password" placeholder="Parol">
+            <button class="btn-main">Kirish</button>
+        </form>
+
+        <p class="auth-link">
+            Akkount yo‘qmi?
+            <a href="{% url 'register' %}">Ro'yxatdan o'tish</a>
+        </p>
+
+    </div>
+</div>
+
+{% endblock %}
