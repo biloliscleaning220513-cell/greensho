@@ -182,3 +182,5 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 CSRF_TRUSTED_ORIGINS = [
     "https://e-commerce-67ie.onrender.com"
 ]
+
+ALLOWED_HOSTS = ['*']
